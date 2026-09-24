@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Langua: a journey through history, culture, and the paths of language.">
+    <title>Langua</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --bg: #0d151b;
+        --bg-soft: #111f29;
+        --panel: rgba(15, 23, 31, 0.68);
+        --panel-strong: rgba(12, 18, 25, 0.88);
+        --line: rgba(246, 240, 233, 0.16);
+        --paper: #f5efe7;
+        --ink: #132028;
+        --muted: rgba(245, 239, 231, 0.74);
+        --gold: #e4b35a;
+        --gold-soft: #d48d2d;
+        --rose: #d0695e;
+        --shadow: rgba(0, 0, 0, 0.2);
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background:
+          radial-gradient(circle at top, rgba(223, 169, 94, 0.14), transparent 30%),
+          linear-gradient(180deg, #0d151b 0%, #101b24 32%, #0b1218 100%);
+        color: var(--paper);
+        font-family: Manrope, Arial, sans-serif;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background:
+          linear-gradient(90deg, rgba(10, 17, 21, 0.86), rgba(10, 17, 21, 0.28), rgba(10, 17, 21, 0.56)),
+          url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=2200&q=85') center/cover no-repeat;
+        opacity: 0.7;
+        z-index: -2;
+      }
+
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+        background-size: 28px 28px;
+        mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+        z-index: -1;
+      }
+
+      a { color: inherit; text-decoration: none; }
+      p, h1, h2, h3 { margin: 0; }
+
+      .page {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: clamp(1rem, 2.4vw, 2rem) clamp(1rem, 2vw, 2.3rem) 4rem;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin: 0 -0.25rem;
+        padding: 0.9rem 1rem 1.1rem;
+        border: 1px solid transparent;
+        border-bottom-color: var(--line);
+        background: rgba(12, 18, 24, 0.18);
+        transition: background 0.25s ease, backdrop-filter 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      }
+
+      .topbar.scrolled {
+        background: rgba(12, 18, 24, 0.52);
+        border-color: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(18px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.14);
+      }
+
+      .brand {
+        display: grid;
+        gap: 0.25rem;
+      }
+
+      .brand-kicker,
+      .label,
+      .meta,
+      .choice-card small,
+      .top-action,
+      .timeline span,
+      .stat strong {
+        font-family: "DM Mono", monospace;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .brand-kicker {
+        font-size: 0.65rem;
+        color: rgba(245, 239, 231, 0.7);
+      }
+
+      .brand-name {
+        font-family: Fraunces, Georgia, serif;
+        font-size: clamp(1.3rem, 2vw, 2rem);
+        letter-spacing: -0.05em;
+      }
+
+      .top-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.8rem 1.1rem;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(10px);
+        font-size: 0.62rem;
+        transition: transform 0.25s ease, border-color 0.25s ease;
+      }
+
+      .top-action:hover {
+        transform: translateY(-2px);
+        border-color: rgba(255, 255, 255, 0.42);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.25fr 0.75fr;
+        gap: clamp(1.8rem, 4vw, 4rem);
+        align-items: end;
+        min-height: 78vh;
+        padding: clamp(2.2rem, 5vw, 5rem) 0 2.5rem;
+      }
+
+      .hero-copy {
+        display: grid;
+        gap: 1.5rem;
+      }
+
+      .label {
+        font-size: 0.68rem;
+        color: var(--gold);
+      }
+
+      h1 {
+        max-width: 12ch;
+        font-family: Fraunces, Georgia, serif;
+        font-size: clamp(3.8rem, 8vw, 9.6rem);
+        line-height: 0.82;
+        letter-spacing: -0.08em;
+        font-weight: 600;
+      }
+
+      h1 span {
+        display: inline-block;
+        color: var(--gold);
+        font-style: italic;
+      }
+
+      .lead {
+        max-width: 40rem;
+        font-size: clamp(1.02rem, 1.5vw, 1.18rem);
+        line-height: 1.8;
+        color: rgba(245, 239, 231, 0.82);
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      .primary,
+      .secondary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 3.2rem;
+        padding: 0.8rem 1.4rem;
+        border: 1px solid transparent;
+        font-family: "DM Mono", monospace;
+        font-size: 0.68rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+      }
+
+      .primary {
+        background: linear-gradient(135deg, var(--gold), var(--gold-soft));
+        color: #111a1f;
+      }
+
+      .secondary {
+        border-color: rgba(255, 255, 255, 0.18);
+        color: var(--paper);
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .primary:hover,
+      .secondary:hover {
+        transform: translateY(-2px);
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+      }
+
+      .stat {
+        padding: 1rem 1rem 0.8rem;
+        border: 1px solid var(--line);
+        background: rgba(10, 16, 22, 0.36);
+        backdrop-filter: blur(10px);
+      }
+
+      .stat strong {
+        display: block;
+        margin-bottom: 0.35rem;
+        color: var(--gold);
+        font-size: 0.62rem;
+      }
+
+      .stat span {
+        display: block;
+        font-size: 1.2rem;
+        line-height: 1.3;
+        letter-spacing: -0.04em;
+      }
+
+      .hero-panel {
+        position: relative;
+        min-height: 34rem;
+        border: 1px solid var(--line);
+        background:
+          linear-gradient(180deg, rgba(13, 21, 27, 0.18), rgba(13, 21, 27, 0.72)),
+          url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+        box-shadow: 0 24px 50px var(--shadow);
+        overflow: hidden;
+      }
+
+      .hero-panel::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(11,16,20,0.72));
+      }
+
+      .panel-card {
+        position: absolute;
+        left: 1.25rem;
+        right: 1.25rem;
+        bottom: 1.25rem;
+        padding: 1rem 1rem 1.2rem;
+        background: rgba(12, 18, 25, 0.72);
+        border: 1px solid rgba(255,255,255,0.12);
+        backdrop-filter: blur(12px);
+        z-index: 1;
+      }
+
+      .panel-card small {
+        display: inline-block;
+        margin-bottom: 0.6rem;
+        color: var(--gold);
+        font-family: "DM Mono", monospace;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-size: 0.62rem;
+      }
+
+      .panel-card h3 {
+        font-family: Fraunces, Georgia, serif;
+        font-size: clamp(1.7rem, 2.2vw, 2.5rem);
+        letter-spacing: -0.05em;
+        line-height: 0.95;
+      }
+
+      .story {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: clamp(1.2rem, 3vw, 3rem);
+        align-items: start;
+        padding: 2rem 0 1rem;
+      }
+
+      .story-copy,
+      .story-panel {
+        border: 1px solid var(--line);
+        background: rgba(14, 19, 24, 0.52);
+        backdrop-filter: blur(10px);
+      }
+
+      .story-copy {
+        padding: clamp(1.5rem, 3vw, 2.4rem);
+      }
+
+      .story-copy h2 {
+        margin-top: 0.8rem;
+        max-width: 11ch;
+        font-family: Fraunces, Georgia, serif;
+        font-size: clamp(2.6rem, 4vw, 4.5rem);
+        line-height: 0.9;
+        letter-spacing: -0.07em;
+      }
+
+      .story-copy p {
+        margin-top: 1rem;
+        color: rgba(245, 239, 231, 0.8);
+        font-size: 1rem;
+        line-height: 1.8;
+      }
+
+      .story-panel {
+        padding: 1rem 1rem 0.2rem;
+      }
+
+      .timeline {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 0.9rem;
+      }
+
+      .timeline li {
+        display: grid;
+        grid-template-columns: 5.5rem 1fr;
+        gap: 1rem;
+        padding: 1.1rem 0.8rem 1.2rem;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .timeline li:last-child { border-bottom: none; }
+
+      .timeline span {
+        display: inline-block;
+        padding-top: 0.1rem;
+        color: var(--gold);
+        font-size: 0.6rem;
+      }
+
+      .timeline h3 {
+        margin-bottom: 0.6rem;
+        font-family: Fraunces, Georgia, serif;
+        font-size: clamp(1.35rem, 2vw, 2rem);
+        letter-spacing: -0.05em;
+      }
+
+      .timeline p {
+        font-size: 0.96rem;
+        line-height: 1.7;
+        color: rgba(245,239,231,0.76);
+      }
+
+      .choices {
+        padding-top: 3.5rem;
+      }
+
+      .choices-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .choices-head h2 {
+        max-width: 12ch;
+        font-family: Fraunces, Georgia, serif;
+        font-size: clamp(2.4rem, 3.5vw, 4rem);
+        line-height: 0.9;
+        letter-spacing: -0.07em;
+      }
+
+      .choices-head p {
+        max-width: 32rem;
+        color: rgba(245, 239, 231, 0.76);
+        line-height: 1.75;
+      }
+
+      .choice-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 0.9rem;
+      }
+
+      .choice-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        min-height: 24rem;
+        padding: 1.1rem;
+        background-size: cover;
+        background-position: center;
+        border: 1px solid rgba(255,255,255,.15);
+        overflow: hidden;
+        box-shadow: 0 18px 34px rgba(0,0,0,.12);
+        transition: transform 0.25s ease, border-color 0.25s ease;
+      }
+
+      .choice-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(9, 15, 20, 0.10), rgba(9, 15, 20, 0.82));
+      }
+
+      .choice-card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(255,255,255,.28);
+      }
+
+      .choice-card > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      .choice-card .meta {
+        display: inline-block;
+        margin-bottom: 0.8rem;
+        color: var(--gold);
+        font-size: 0.58rem;
+      }
+
+      .choice-card h3 {
+        font-family: Fraunces, Georgia, serif;
+        font-size: clamp(2rem, 2.4vw, 2.7rem);
+        line-height: 0.95;
+        letter-spacing: -0.06em;
+      }
+
+      .choice-card p {
+        margin-top: 0.7rem;
+        max-width: 16rem;
+        color: rgba(245,239,231,0.85);
+        line-height: 1.6;
+      }
+
+      .choice-card small {
+        display: inline-block;
+        margin-top: 1.2rem;
+        color: #fff;
+        font-size: 0.58rem;
+      }
+
+      .c-en { background-image: url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1200&q=80'); }
+      .c-fr { background-image: url('https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=1200&q=80'); }
+      .c-de { background-image: url('https://images.unsplash.com/photo-1523908511403-7fc7b25592f4?auto=format&fit=crop&w=1200&q=80'); }
+      .c-it { background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80'); }
+      .c-sq { background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80'); }
+
+      .footer-note {
+        padding-top: 2.4rem;
+        color: rgba(245,239,231,0.72);
+        line-height: 1.8;
+      }
+
+      @media (max-width: 980px) {
+        .hero,
+        .story,
+        .choices-head {
+          grid-template-columns: 1fr;
+          display: grid;
+        }
+
+        .choice-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 640px) {
+        .page {
+          padding-left: 0.8rem;
+          padding-right: 0.8rem;
+        }
+
+        .topbar {
+          align-items: flex-start;
+          flex-direction: column;
+          width: calc(100% + 0.2rem);
+          margin-left: -0.1rem;
+          padding-left: 0.9rem;
+          padding-right: 0.9rem;
+        }
+
+        .hero {
+          min-height: auto;
+          padding-top: 2.2rem;
+        }
+
+        .stats {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-panel {
+          min-height: 23rem;
+        }
+
+        .timeline li {
+          grid-template-columns: 1fr;
+        }
+
+        .choice-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .choice-card {
+          min-height: 18rem;
+        }
+
+        .choices-head {
+          display: grid;
+          gap: 0.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-kicker">Langua</span>
+          <span class="brand-name">A journey through words</span>
+        </div>
+        <a class="top-action" href="#journey">Choose the path</a>
+      </header>
+
+      <main>
+        <section class="hero">
+          <div class="hero-copy">
+            <div class="label">History • culture • vision</div>
+            <h1>Every language holds a <span>journey.</span></h1>
+            <p class="lead">
+              Langua is more than a celebration of words. It is a reminder that language makes the world legible: through trade routes, books, migration, classrooms, and the shared desire to understand one another.
+            </p>
+            <div class="hero-actions">
+              <a class="primary" href="#journey">Explore</a>
+              <a class="secondary" href="#choices">Choose a language</a>
+            </div>
+            <div class="stats">
+              <div class="stat">
+                <strong>Languages</strong>
+                <span>5 studies</span>
+              </div>
+              <div class="stat">
+                <strong>Story</strong>
+                <span>One history</span>
+              </div>
+              <div class="stat">
+                <strong>Reach</strong>
+                <span>Global</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-panel" aria-label="Visual journey through languages">
+            <div class="panel-card">
+              <small>A bold idea</small>
+              <h3>When you understand a language, you begin to understand the world behind it.</h3>
+            </div>
+          </div>
+        </section>
+
+        <section class="story" id="journey">
+          <div class="story-copy">
+            <div class="label">History</div>
+            <h2>The place where languages become connection.</h2>
+            <p>
+              In schools and in culture, Langua emerged as a way to bring close a powerful idea: that people should learn to listen to one another, not only through words, but through rhythm, accent, memory, and place.
+            </p>
+            <p>
+              At its core, it is an old tradition: when a community understands that a language is not a closed border, but a path toward human continuity, it becomes an object of collective affection, education, and identity.
+            </p>
+          </div>
+
+          <div class="story-panel">
+            <ul class="timeline">
+              <li>
+                <span>1910s</span>
+                <div>
+                  <h3>The school of culture</h3>
+                  <p>Language begins to be seen as a way to understand history itself, not just the speech of one country.</p>
+                </div>
+              </li>
+              <li>
+                <span>1950s</span>
+                <div>
+                  <h3>Culture of dialogue</h3>
+                  <p>A new idea of international connection makes languages feel like a living network of human exchange.</p>
+                </div>
+              </li>
+              <li>
+                <span>Today</span>
+                <div>
+                  <h3>A festival of reading</h3>
+                  <p>Langua becomes a way to illuminate the many worlds living in every word, accent, and cultural encounter.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="choices" id="choices">
+          <div class="choices-head">
+            <div class="label">Choose what to explore</div>
+            <h2>Choose your path.</h2>
+            <p>
+              Each language is a distinct route: with its own place, story, tone, and way of building meaning.
+            </p>
+          </div>
+
+          <nav class="choice-grid" aria-label="Choose a language to explore">
+            <a class="choice-card c-en" href="english.html">
+              <div class="meta">01 // EN</div>
+              <h3>English</h3>
+              <p>A language of movement, trade, literature, and global exchange.</p>
+              <small>Open the story →</small>
+            </a>
+
+            <a class="choice-card c-fr" href="french.html">
+              <div class="meta">02 // FR</div>
+              <h3>Français</h3>
+              <p>The voice of culture, law, beauty, and thoughtful conversation.</p>
+              <small>Open the story →</small>
+            </a>
+
+            <a class="choice-card c-de" href="german.html">
+              <div class="meta">03 // DE</div>
+              <h3>Deutsch</h3>
+              <p>A language of structure, precision, and literary depth.</p>
+              <small>Open the story →</small>
+            </a>
+
+            <a class="choice-card c-it" href="italian.html">
+              <div class="meta">04 // IT</div>
+              <h3>Italiano</h3>
+              <p>A rhythm of beauty, music, and the shaping of every sound.</p>
+              <small>Open the story →</small>
+            </a>
+
+            <a class="choice-card c-sq" href="albanian.html">
+              <div class="meta">05 // SQ</div>
+              <h3>Shqip</h3>
+              <p>A language of memory, place, and the depth of the Balkans.</p>
+              <small>Open the story →</small>
+            </a>
+          </nav>
+        </section>
+
+        <p class="footer-note">
+          This page is designed as a journey rather than a simple list: a movement through words, places, and cultures that shape a multilingual world.
+        </p>
+      </main>
+    </div>
+
+    <script>
+      const topbar = document.querySelector('.topbar');
+      const updateHeaderState = () => {
+        topbar.classList.toggle('scrolled', window.scrollY > 18);
+      };
+
+      updateHeaderState();
+      window.addEventListener('scroll', updateHeaderState, { passive: true });
+    </script>
+  </body>
+</html>
+

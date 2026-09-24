@@ -101,7 +101,14 @@ main section:not(.hero) { position: relative; padding: clamp(4.5rem, 9vw, 8.5rem
 .culture .section-image { inset: 0 45% 0 0; opacity: .88; }
 .culture::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 0%, rgba(245,241,233,.12) 32%, var(--paper) 48%, var(--paper) 100%); }
 .culture > * { position: relative; z-index: 1; }
-.culture-layout { display: grid; grid-template-columns: minmax(8rem, 1fr) minmax(18rem, 1.3fr); gap: clamp(2rem, 7vw, 9rem); max-width: 78rem; margin-left: auto; }
+.culture-layout { display: grid; grid-template-columns: minmax(14rem, .8fr) minmax(18rem, 1.3fr); gap: clamp(2rem, 7vw, 9rem); max-width: 78rem; margin-left: auto; }
+.culture-panel { align-self: center; margin-top: 2rem; padding: clamp(1.2rem, 2vw, 2rem); border: 1px solid rgba(18, 33, 43, .18); background: rgba(255,255,255,.48); backdrop-filter: blur(12px); box-shadow: 0 1.4rem 3rem rgba(18, 33, 43, .08); }
+.panel-label { margin: 0 0 .7rem; color: var(--accent-deep); font-family: "DM Mono", monospace; font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; }
+.culture-panel h3 { margin: 0; font-size: clamp(2rem, 3vw, 3rem); letter-spacing: -.06em; line-height: .9; font-family: Fraunces, Georgia, serif; }
+.culture-panel dl { display: grid; gap: .9rem; margin: 1.3rem 0 0; }
+.culture-panel dl div { display: grid; gap: .18rem; padding-top: .8rem; border-top: 1px solid rgba(18, 33, 43, .14); }
+.culture-panel dt { color: var(--muted); font-family: "DM Mono", monospace; font-size: .58rem; letter-spacing: .08em; text-transform: uppercase; }
+.culture-panel dd { margin: 0; font-size: .97rem; line-height: 1.5; }
 .culture-copy { padding-top: 4rem; }
 .culture-copy h2 { max-width: 11ch; margin: 0; font-size: clamp(2.6rem, 5vw, 5.4rem); font-weight: 600; letter-spacing: -.065em; line-height: .92; text-wrap: balance; }
 .culture-copy p { max-width: 38rem; font-size: 1rem; line-height: 1.78; }
@@ -161,6 +168,7 @@ main section:not(.hero) { position: relative; padding: clamp(4.5rem, 9vw, 8.5rem
   .culture .section-image { inset: 0; opacity: .28; }
   .culture::after { background: rgba(245,241,233,.78); }
   .culture-layout { display: block; }
+  .culture-panel { margin: 0 0 1.5rem; }
   .culture-copy { padding-top: 0; }
 }
 

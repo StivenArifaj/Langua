@@ -259,7 +259,19 @@ document.body.innerHTML = `
     </section>
     <section class="culture" id="culture">
       <div class="section-image" ${image(data.hero)} role="img" aria-label="${uiKey.cultureLabel} ${data.country}"></div>
-      <div class="culture-layout reveal"><div></div><article class="culture-copy"><p class="eyebrow">${uiKey.sectionPrefix[5]}</p><h2>${data.culture.title}</h2><p>${data.culture.text[0]}</p><p>${data.culture.text[1]}</p><blockquote>${data.culture.quote}</blockquote></article></div>
+      <div class="culture-layout reveal">
+        <aside class="culture-panel" aria-label="${data.name} overview">
+          <p class="panel-label">${uiKey.country}</p>
+          <h3>${data.native}</h3>
+          <dl>
+            <div><dt>${uiKey.country}</dt><dd>${data.country}</dd></div>
+            <div><dt>${uiKey.code}</dt><dd>${data.code}</dd></div>
+            <div><dt>Roots</dt><dd>${data.lineage[0][1]}</dd></div>
+            <div><dt>Living today</dt><dd>${data.history[data.history.length - 1][1]}</dd></div>
+          </dl>
+        </aside>
+        <article class="culture-copy"><p class="eyebrow">${uiKey.sectionPrefix[5]}</p><h2>${data.culture.title}</h2><p>${data.culture.text[0]}</p><p>${data.culture.text[1]}</p><blockquote>${data.culture.quote}</blockquote></article>
+      </div>
     </section>
   </main>
   <footer class="credits"><div class="credits-inner"><div><h2 class="footer-title">${uiKey.footer}</h2><p>${data.sources} ${uiKey.footnote}</p></div><p><a href="#top">${uiKey.back}</a><br>${uiKey.made}</p></div></footer>`;
